@@ -18,8 +18,10 @@
         <th>State</th>
         <th>Employment Status</th>
         <th>Employer</th>
-        <th>Interest</th>
+        <th>Interested</th>
         <th>App Status</th>
+        <th>Date</th>
+        <th>Latest Note</th>
     </tr>
     @foreach (var user in @Model)
     {
@@ -40,8 +42,17 @@
             <td>@user.State</td>
             <td>@user.EmploymentStatus</td>
             <td>@user.Employer</td>
-            <td>@user.InterestFlag</td>
+            @if (@user.InterestFlag == 1)
+            {
+                <td class="yes">Yes</td>
+            }
+            else
+            {
+                <td class="no">No</td>
+            }
             <td>@user.ApplicationStatus</td>
+            <td>@user.LatestNote.Date</td>
+            <td>@user.LatestNote.Note</td>
         </tr>
     }
 </table>
