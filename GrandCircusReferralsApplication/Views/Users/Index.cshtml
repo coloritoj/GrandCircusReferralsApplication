@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+@model List<BaseUser>
+<h1>Grand Circus Referrals</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Bootcamp</th>
+        <th>Grad Status</th>
+        <th>Year</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Employment Status</th>
+        <th>Employer</th>
+        <th>Interest</th>
+        <th>App Status</th>
+    </tr>
+    @foreach (var user in @Model)
+    {
+        <tr>
+            <td>@user.ID</td>
+            <td>@user.Name</td>
+            <td>@user.Bootcamp</td>
+            @if (@user.GraduationFlag == 1)
+            {
+                <td>Graduated</td>
+            }
+            else
+            {
+                <td>Not Graduated</td>
+            }
+            <td>@user.GraduationYear</td>
+            <td>@user.City</td>
+            <td>@user.State</td>
+            <td>@user.EmploymentStatus</td>
+            <td>@user.Employer</td>
+            <td>@user.InterestFlag</td>
+            <td>@user.ApplicationStatus</td>
+        </tr>
+    }
+</table>
