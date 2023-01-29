@@ -2,6 +2,7 @@
 using GrandCircusReferralsApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace GrandCircusReferralsApplication.Controllers
 {
@@ -22,27 +23,55 @@ namespace GrandCircusReferralsApplication.Controllers
             return View(users);
         }
         
-        public async Task<IActionResult> AddNote(BaseUser baseUser)
-        {
-            AddNoteViewModel addNoteViewModel = new AddNoteViewModel() { Name = baseUser.Name, ID = baseUser.ID };         
-
+        public async Task<IActionResult> GetNotes(BaseUser baseUser)
+        {   
             HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
             var response = await client.GetAsync($"/api/GetNotesByCandidateID?candidateID={baseUser.ID}");
-            addNoteViewModel.Notes = await response.Content.ReadFromJsonAsync<List<BaseNote>>();
+            baseUser.Notes = await response.Content.ReadFromJsonAsync<List<BaseNote>>();
 
-            addNoteViewModel.Notes = addNoteViewModel.Notes.OrderByDescending(x => x.NoteID).ToList();
+            baseUser.Notes = baseUser.Notes.OrderByDescending(x => x.NoteID).ToList();
 
-            return View(addNoteViewModel);
+            return View(baseUser);
         }
 
-        public async Task<IActionResult> DeleteNote(int candidateID, string name, int noteID)
+        public async Task<IActionResult> GetNotesAfterDelete(int candidateID)
+        {
+            HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
+            var response = await client.GetAsync("/api/Users");
+            List<BaseUser> users = await response.Content.ReadFromJsonAsync<List<BaseUser>>();
+
+            BaseUser baseUser = users.Where(x => x.ID == candidateID).FirstOrDefault();
+
+            baseUser.Notes = baseUser.Notes.OrderByDescending(x => x.NoteID).ToList();
+
+            return View(baseUser);
+        }
+
+        public async Task<IActionResult> DeleteNote(int candidateID, int noteID)
         {
             HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
             var response = await client.DeleteAsync($"/api/DeleteNoteByNoteID?noteID={noteID}");
 
-            BaseUser baseUser = new BaseUser() { ID = candidateID, Name = name };
+            return RedirectToAction($"GetNotesAfterDelete", "Users", new {candidateID});
+        }
 
-            return RedirectToAction("AddNote", "Users", baseUser);
+        public async Task<IActionResult> PostNote(int userID, string note)
+        {
+            AddNoteModel model = new AddNoteModel() { CandidateID = userID, Note = note };
+
+            HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
+
+            var endpoint = new Uri("https://localhost:7021/api/AddNoteByCandidateID");
+            var newJson = JsonConvert.SerializeObject(model);
+            var payload = new StringContent(newJson, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(endpoint, payload);
+
+            var response = await client.GetAsync("/api/Users");
+            List<BaseUser> users = await response.Content.ReadFromJsonAsync<List<BaseUser>>();
+            BaseUser baseUser = users.Where(x => x.ID == userID).FirstOrDefault();
+            baseUser.Notes = baseUser.Notes.OrderByDescending(x => x.NoteID).ToList();
+
+            return RedirectToAction("GetNotes", "Users", baseUser);
         }
     }
 }

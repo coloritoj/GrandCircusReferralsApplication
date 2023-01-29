@@ -1,0 +1,32 @@
+﻿@model BaseUser
+
+<h3>Notes for @Model.Name</h3>
+
+<form method="post" action="/users/PostNote">
+    <input type="hidden" name="userID" value="@Model.ID"/><br />
+    <input type="text" name="note" /> <input type="submit" value="Add Note" />
+</form>
+<br />
+<br />
+
+<table>
+    <tr>
+        <th>NoteID</th>
+        <th>CandidateID</th>
+        <th>Date</th>
+        <th>Note</th>
+        <th>Delete Note</th>
+    </tr>
+    @foreach (var note in @Model.Notes)
+    {
+        <tr>
+            <td>@note.NoteID</td>
+            <td>@note.CandidateID</td>
+            <td>@note.Date</td>
+            <td>@note.Note</td>
+            <td>
+                @Html.ActionLink("Delete Note", "DeleteNote", "Users", new { @note.CandidateID, @note.NoteID })
+            </td>
+        </tr>
+    }
+</table>

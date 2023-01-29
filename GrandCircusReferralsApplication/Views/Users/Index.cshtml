@@ -21,7 +21,7 @@
         <th>App Status</th>
         <th>Date</th>
         <th>Latest Note</th>
-        <th>Add Note</th>
+        <th>View Notes</th>
     </tr>
     @foreach (var user in @Model)
     {
@@ -54,7 +54,7 @@
             <td>@user.LatestNote.Date</td>
             <td>@user.LatestNote.Note</td>
             <td>
-                @Html.ActionLink("View All Notes", "AddNote", "Users", user)
+                @Html.ActionLink("View All Notes", "GetNotes", "Users", user)
             </td>
         </tr>
     }
