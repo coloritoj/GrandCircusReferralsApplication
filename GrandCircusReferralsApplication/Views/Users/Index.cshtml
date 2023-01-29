@@ -9,7 +9,7 @@
 
 <table>
     <tr>
-        <th>ID</th>
+        <th>Interested</th>
         <th>Name</th>
         <th>Bootcamp</th>
         <th>Grad Status</th>
@@ -18,15 +18,22 @@
         <th>State</th>
         <th>Employment Status</th>
         <th>Employer</th>
-        <th>Interested</th>
         <th>App Status</th>
         <th>Date</th>
         <th>Latest Note</th>
+        <th>Add Note</th>
     </tr>
     @foreach (var user in @Model)
     {
         <tr>
-            <td>@user.ID</td>
+            @if (@user.InterestFlag == 1)
+            {
+                <td class="yes">Yes</td>
+            }
+            else
+            {
+                <td class="no">No</td>
+            }
             <td>@user.Name</td>
             <td>@user.Bootcamp</td>
             @if (@user.GraduationFlag == 1)
@@ -42,17 +49,13 @@
             <td>@user.State</td>
             <td>@user.EmploymentStatus</td>
             <td>@user.Employer</td>
-            @if (@user.InterestFlag == 1)
-            {
-                <td class="yes">Yes</td>
-            }
-            else
-            {
-                <td class="no">No</td>
-            }
+            
             <td>@user.ApplicationStatus</td>
             <td>@user.LatestNote.Date</td>
             <td>@user.LatestNote.Note</td>
+            <td>
+                @Html.ActionLink("View All Notes", "AddNote", "Users", user)
+            </td>
         </tr>
     }
 </table>
