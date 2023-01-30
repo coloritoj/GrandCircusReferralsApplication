@@ -1,35 +1,47 @@
 ﻿<form method="post" action="/Users/PostUser">
-    Name: <br />
+    <b>Name:</b><br />
     <input type="text" name="name" /><br /><br />
 
-    Bootcamp: <br />
-    <input type="number" name="bootcamp" /><br /><br />
+    <b>Bootcamp:</b><br />
+    <input type="radio" name="bootcamp" value="1" /> C# .NET<br />
+    <input type="radio" name="bootcamp" value="2" /> Java<br />
+    <input type="radio" name="bootcamp" value="3" /> JavaScript<br />
+    <input type="radio" name="bootcamp" value="4" /> Data Engineering<br /><br />
 
-    Graduation Flag: <br />
-    <input type="number" name="graduationFlag" /><br><br />
+    <b>Graduated:</b><br />
+    <input type="radio" name="graduationFlag" value="1" /> Yes<br />
+    <input type="radio" name="graduationFlag" value="0" /> No<br /><br />
 
-    Graduation Year: <br />
+    <b>Graduation Year:</b><br />
     <input type="number" name="graduationYear" /><br /><br />
     
-    City: <br />
+    <b>City:</b><br />
     <input type="text" name="city" /><br /><br />
     
-    State: <br />
+    <b>State:</b><br />
     <input type="text" name="state" /><br /><br />
     
-    Employment Status: <br />
-    <input type="number" name="employmentStatus" /><br /><br />
+    <b>Employment Status:</b><br />
+    <input type="radio" name="employmentStatus" value="1" /> Not Employed<br />
+    <input type="radio" name="employmentStatus" value="2" /> Employed Elsewhere<br />
+    <input type="radio" name="employmentStatus" value="4" /> Employed at UWM<br />
+    <input type="radio" name="employmentStatus" value="3" /> Unknown<br /><br />
     
-    Employer: <br />
+    <b>Employer:</b><br />
     <input type="text" name="employer" /><br /><br />
     
-    Interest Flag: <br />
-    <input type="number" name="interestFlag" /><br /><br />
+    <b>Interested in UWM:</b><br />
+    <input type="radio" name="interestFlag" value="1" /> Yes<br />
+    <input type="radio" name="interestFlag" value="0" /> No<br /><br />
     
-    Application Status: <br />
-    <input type="number" name="applicationStatus" /><br /><br />
+    <b>Application Status:</b><br />
+    <input type="radio" name="applicationStatus" value="1" /> Not Applied <br />
+    <input type="radio" name="applicationStatus" value="2" /> Waiting to Apply <br />
+    <input type="radio" name="applicationStatus" value="3" /> Applied <br />
+    <input type="radio" name="applicationStatus" value="4" /> Hired <br />
+    <input type="radio" name="applicationStatus" value="5" /> Rejected <br /><br />
     
-    Note: <br />
+    <b>Note:</b><br />
     <input type="text" name="note" /><br /><br />
     <input type="submit" value="Add User" />
 </form>
