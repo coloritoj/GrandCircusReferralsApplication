@@ -73,5 +73,39 @@ namespace GrandCircusReferralsApplication.Controllers
 
             return RedirectToAction("GetNotes", "Users", baseUser);
         }
+
+        public IActionResult AddNewUser()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> PostUser(string name, int bootcamp, int graduationFlag,
+                                                  int graduationYear, string city, string state,
+                                                  int employmentStatus, string employer, int interestFlag,
+                                                  int applicationStatus, string note)
+        {
+            AddNewUserModel addNewUserModel = new AddNewUserModel()
+            {
+                Name = name,
+                Bootcamp = bootcamp,
+                GraduationFlag = graduationFlag,
+                GraduationYear = graduationYear,
+                City = city,
+                State = state,
+                EmploymentStatus = employmentStatus,
+                Employer = employer,
+                InterestFlag = interestFlag,
+                ApplicationStatus = applicationStatus,
+                Note = note
+            };
+
+            HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
+            var endpoint = new Uri("https://localhost:7021/api/AddNewUser");
+            var newJson = JsonConvert.SerializeObject(addNewUserModel);
+            var payload = new StringContent(newJson, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(endpoint, payload);
+
+            return RedirectToAction("Index", "Users");
+        }
     }
 }
