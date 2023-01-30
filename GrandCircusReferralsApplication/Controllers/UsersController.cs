@@ -14,6 +14,11 @@ namespace GrandCircusReferralsApplication.Controllers
             var response = await client.GetAsync("/api/Users");
             List<BaseUser> users = await response.Content.ReadFromJsonAsync<List<BaseUser>>();
 
+            users = users.OrderByDescending(x => x.ApplicationStatus == "Hired")
+                .ThenByDescending(x => x.InterestFlag)
+                .ThenBy(x => x.Bootcamp)
+                .ToList();
+
             foreach (var user in users)
             {
                 user.Notes = user.Notes.OrderByDescending(x => x.NoteID).ToList();
@@ -102,6 +107,30 @@ namespace GrandCircusReferralsApplication.Controllers
             HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
             var endpoint = new Uri("https://localhost:7021/api/AddNewUser");
             var newJson = JsonConvert.SerializeObject(addNewUserModel);
+            var payload = new StringContent(newJson, Encoding.UTF8, "application/json");
+            var result = await client.PostAsync(endpoint, payload);
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        public async Task<IActionResult> UpdateApplicationStatus(BaseUser user)
+        {
+            return View(user);
+        }
+
+        public async Task<IActionResult> PostUpdatedApplicationStatus(int interestFlag, int applicationStatus, string note, int candidateID)
+        {
+            UpdateApplicationStatusModel updateApplicationStatusModel = new UpdateApplicationStatusModel()
+            {
+                InterestFlag = interestFlag,
+                ApplicationStatus = applicationStatus,
+                Note = note,
+                CandidateID = candidateID
+            };
+
+            HttpClient client = new HttpClient() { BaseAddress = new Uri("https://localhost:7021") };
+            var endpoint = new Uri("https://localhost:7021/api/UpdateApplicationStatusByUserID");
+            var newJson = JsonConvert.SerializeObject(updateApplicationStatusModel);
             var payload = new StringContent(newJson, Encoding.UTF8, "application/json");
             var result = await client.PostAsync(endpoint, payload);
 

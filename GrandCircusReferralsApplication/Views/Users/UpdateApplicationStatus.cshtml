@@ -1,0 +1,24 @@
+﻿@model BaseUser
+
+<h3>Update Application Status for @Model.Name</h3>
+<br />
+
+<form method="post" action="/Users/PostUpdatedApplicationStatus">
+    <b>Interested in UWM:</b><br />
+    <input type="radio" name="interestFlag" value="1" /> Yes<br />
+    <input type="radio" name="interestFlag" value="0" /> No<br /><br />
+
+    <b>Application Status:</b><br />
+    <input type="radio" name="applicationStatus" value="1" /> Not Applied <br />
+    <input type="radio" name="applicationStatus" value="2" /> Waiting to Apply <br />
+    <input type="radio" name="applicationStatus" value="3" /> Applied <br />
+    <input type="radio" name="applicationStatus" value="4" /> Hired <br />
+    <input type="radio" name="applicationStatus" value="5" /> Rejected <br /><br />
+
+    <b>Note:</b><br />
+    <input type="text" name="note" /><br /><br />
+
+    <input type="hidden" name="candidateID" value="@Model.ID" />
+
+    <input type="submit" value="Update Application Status" />
+</form>
