@@ -15,6 +15,10 @@ namespace GrandCircusReferralsApplication.Controllers
             List<BaseUser> users = await response.Content.ReadFromJsonAsync<List<BaseUser>>();
 
             users = users.OrderByDescending(x => x.ApplicationStatus == "Hired")
+                .ThenByDescending(x => x.ApplicationStatus == "Applied")
+                .ThenByDescending(x => x.ApplicationStatus == "Waiting to Apply")
+                .ThenByDescending(x => x.ApplicationStatus == "Not Applied")
+                .ThenByDescending(x => x.ApplicationStatus == "Rejected")
                 .ThenByDescending(x => x.InterestFlag)
                 .ThenBy(x => x.Bootcamp)
                 .ToList();
